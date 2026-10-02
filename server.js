@@ -11,7 +11,9 @@ const rateLimit = require("express-rate-limit");
 const cookieSession = require("cookie-session");
 
 const app = express();
+
 app.set("trust proxy", 1);
+
 const PORT = Number(process.env.PORT || 3000);
 
 const db = new Database(
