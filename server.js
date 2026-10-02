@@ -14,10 +14,25 @@ const app = express();
 
 app.set("trust proxy", 1);
 
+app.get("/api/health", (req, res) => {
+  res.json({
+    ok: true,
+    service: "espaco-playstation"
+  });
+});
+
 const PORT = Number(process.env.PORT || 3000);
 
 const dbPath =
   process.env.DATABASE_FILE || "./espaco-playstation.sqlite";
+
+const dbDirectory = path.dirname(dbPath);
+
+if (!fs.existsSync(dbDirectory)) {
+  fs.mkdirSync(dbDirectory, { recursive: true });
+}
+
+const db = new Database(dbPath);
 
 const dbDirectory = path.dirname(dbPath);
 
