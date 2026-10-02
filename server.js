@@ -16,9 +16,16 @@ app.set("trust proxy", 1);
 
 const PORT = Number(process.env.PORT || 3000);
 
-const db = new Database(
-  process.env.DATABASE_FILE || "./espaco-playstation.sqlite"
-);
+const dbPath =
+  process.env.DATABASE_FILE || "./espaco-playstation.sqlite";
+
+const dbDirectory = path.dirname(dbPath);
+
+if (!fs.existsSync(dbDirectory)) {
+  fs.mkdirSync(dbDirectory, { recursive: true });
+}
+
+const db = new Database(dbPath);
 
 db.pragma("journal_mode = WAL");
 db.pragma("foreign_keys = ON");
